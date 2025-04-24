@@ -124,4 +124,29 @@ $ bash scripts/build.sh
 #若编译顺利完成，最后会出现 Compilation ends successfully! 结果
 ```
 ![img_4.png](images/img_4.png)
-## 步骤5：至此，安装完毕，更详细的操作请去官网文档查看
+## 步骤5：配置tomcat8，为部署安装可视化gWorkbench做准备
+### 1. 安装 Java，安装 OpenJDK
+```powershell
+sudo apt install openjdk-8-jdk
+```
+验证安装：
+```powershell
+java -version
+```
+### 2. 下载并解压 Tomcat
+下载 Tomcat：
+这是一个镜像网址：https://ftp.unicamp.br/pub/apache/tomcat/tomcat-8/v8.5.73/bin/
+直接在网站里下载，然后上传到opt目录下
+![img_7.png](images/img_7.png)
+
+创建目录并解压：
+```powershell
+sudo mkdir /opt/tomcat
+sudo tar -zxvf apache-tomcat-8.5.73.tar.gz -C /opt/tomcat
+```
+### 3. 启动 Tomcat
+```powershell
+# 这个目录不是固定的，只要到解压后的tomcat里找到bin目录即可
+/opt/tomcat/apache-tomcat-8.5.73/bin/startup.sh
+```
+![img_8.png](images/img_8.png)
