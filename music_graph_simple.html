@@ -1,0 +1,164 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #1e1e1e;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#ff6666", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q21077", "label": "Warner Music Group", "shape": "triangle", "size": 30, "title": "http://www.wikidata.org/entity/Q21077"}, {"color": "#6fa8dc", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q810980", "label": "http://www.wikidata.org/entity/Q810980", "shape": "dot", "size": 20, "title": "http://www.wikidata.org/entity/Q810980"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q60025321", "label": "http://www.wikidata.org/entity/Q60025321", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q60025321"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q18745688", "label": "http://www.wikidata.org/entity/Q18745688", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q18745688"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q28776598", "label": "http://www.wikidata.org/entity/Q28776598", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q28776598"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q17151274", "label": "http://www.wikidata.org/entity/Q17151274", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q17151274"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16950581", "label": "http://www.wikidata.org/entity/Q16950581", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16950581"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q108853213", "label": "http://www.wikidata.org/entity/Q108853213", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q108853213"}, {"color": "#6fa8dc", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q917754", "label": "http://www.wikidata.org/entity/Q917754", "shape": "dot", "size": 20, "title": "http://www.wikidata.org/entity/Q917754"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q12715791", "label": "http://www.wikidata.org/entity/Q12715791", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q12715791"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q12719046", "label": "http://www.wikidata.org/entity/Q12719046", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q12719046"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q12715922", "label": "http://www.wikidata.org/entity/Q12715922", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q12715922"}, {"color": "#6fa8dc", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q853266", "label": "http://www.wikidata.org/entity/Q853266", "shape": "dot", "size": 20, "title": "http://www.wikidata.org/entity/Q853266"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16689374", "label": "http://www.wikidata.org/entity/Q16689374", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16689374"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10868949", "label": "http://www.wikidata.org/entity/Q10868949", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10868949"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10882749", "label": "http://www.wikidata.org/entity/Q10882749", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10882749"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q7354761", "label": "http://www.wikidata.org/entity/Q7354761", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q7354761"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10846531", "label": "http://www.wikidata.org/entity/Q10846531", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10846531"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15953343", "label": "http://www.wikidata.org/entity/Q15953343", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15953343"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15956178", "label": "http://www.wikidata.org/entity/Q15956178", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15956178"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15928664", "label": "http://www.wikidata.org/entity/Q15928664", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15928664"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10940680", "label": "http://www.wikidata.org/entity/Q10940680", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10940680"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10887996", "label": "http://www.wikidata.org/entity/Q10887996", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10887996"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10880241", "label": "http://www.wikidata.org/entity/Q10880241", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10880241"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15921110", "label": "http://www.wikidata.org/entity/Q15921110", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15921110"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q24837870", "label": "http://www.wikidata.org/entity/Q24837870", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q24837870"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10853031", "label": "http://www.wikidata.org/entity/Q10853031", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10853031"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q11075173", "label": "http://www.wikidata.org/entity/Q11075173", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q11075173"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16689263", "label": "http://www.wikidata.org/entity/Q16689263", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16689263"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10940679", "label": "http://www.wikidata.org/entity/Q10940679", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10940679"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q24837866", "label": "http://www.wikidata.org/entity/Q24837866", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q24837866"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15954443", "label": "http://www.wikidata.org/entity/Q15954443", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15954443"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q19854477", "label": "http://www.wikidata.org/entity/Q19854477", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q19854477"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10852119", "label": "http://www.wikidata.org/entity/Q10852119", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10852119"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q18394978", "label": "http://www.wikidata.org/entity/Q18394978", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q18394978"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10846603", "label": "http://www.wikidata.org/entity/Q10846603", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10846603"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10846817", "label": "http://www.wikidata.org/entity/Q10846817", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10846817"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16691138", "label": "http://www.wikidata.org/entity/Q16691138", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16691138"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q19854732", "label": "http://www.wikidata.org/entity/Q19854732", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q19854732"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10890795", "label": "http://www.wikidata.org/entity/Q10890795", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10890795"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10925012", "label": "http://www.wikidata.org/entity/Q10925012", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10925012"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q110397755", "label": "http://www.wikidata.org/entity/Q110397755", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q110397755"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q7256711", "label": "http://www.wikidata.org/entity/Q7256711", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q7256711"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10934376", "label": "http://www.wikidata.org/entity/Q10934376", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10934376"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10852118", "label": "http://www.wikidata.org/entity/Q10852118", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10852118"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10921311", "label": "http://www.wikidata.org/entity/Q10921311", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10921311"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16689551", "label": "http://www.wikidata.org/entity/Q16689551", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16689551"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q19854898", "label": "http://www.wikidata.org/entity/Q19854898", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q19854898"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10853057", "label": "http://www.wikidata.org/entity/Q10853057", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10853057"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q65045357", "label": "http://www.wikidata.org/entity/Q65045357", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q65045357"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q16689431", "label": "http://www.wikidata.org/entity/Q16689431", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q16689431"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q11151394", "label": "http://www.wikidata.org/entity/Q11151394", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q11151394"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q15956688", "label": "http://www.wikidata.org/entity/Q15956688", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q15956688"}, {"color": "#f6b26b", "font": {"color": "white"}, "id": "http://www.wikidata.org/entity/Q10852520", "label": "http://www.wikidata.org/entity/Q10852520", "shape": "box", "size": 15, "title": "http://www.wikidata.org/entity/Q10852520"}]);
+                  edges = new vis.DataSet([{"color": "#bbbbbb", "from": "http://www.wikidata.org/entity/Q21077", "title": "signed with", "to": "http://www.wikidata.org/entity/Q810980"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q60025321"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q18745688"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q28776598"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q17151274"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q16950581"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q810980", "title": "performed", "to": "http://www.wikidata.org/entity/Q108853213"}, {"color": "#bbbbbb", "from": "http://www.wikidata.org/entity/Q21077", "title": "signed with", "to": "http://www.wikidata.org/entity/Q917754"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q917754", "title": "performed", "to": "http://www.wikidata.org/entity/Q12715791"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q917754", "title": "performed", "to": "http://www.wikidata.org/entity/Q12719046"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q917754", "title": "performed", "to": "http://www.wikidata.org/entity/Q12715922"}, {"color": "#bbbbbb", "from": "http://www.wikidata.org/entity/Q21077", "title": "signed with", "to": "http://www.wikidata.org/entity/Q853266"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q16689374"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10868949"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10882749"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q7354761"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10846531"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15953343"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15956178"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15928664"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10940680"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10887996"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10880241"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15921110"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q24837870"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10853031"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q11075173"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q16689263"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10940679"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q24837866"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15954443"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q19854477"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10852119"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q18394978"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10846603"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10846817"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q16691138"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q19854732"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10890795"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10925012"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q110397755"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q7256711"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10934376"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10852118"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10921311"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q16689551"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q19854898"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10853057"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q65045357"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q16689431"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q11151394"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q15956688"}, {"color": "#ffffff", "from": "http://www.wikidata.org/entity/Q853266", "title": "performed", "to": "http://www.wikidata.org/entity/Q10852520"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.02,
+            "damping": 0.4,
+            "gravitationalConstant": -25,
+            "springConstant": 0.05,
+            "springLength": 200
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

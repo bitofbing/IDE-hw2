@@ -123,8 +123,22 @@ $ . scripts/setup/setup_ubuntu.sh
 $ bash scripts/build.sh
 #若编译顺利完成，最后会出现 Compilation ends successfully! 结果
 ```
+## 步骤5：初始化数据库
+```bash
+bin/ginit
+```
 ![img_4.png](images/img_4.png)
-## 步骤5：配置tomcat8，为部署安装可视化gWorkbench做准备
+创建一个数据库
+```bash
+bin/gbuild -db lubm -f data/lubm/lubm.nt
+```
+![img_11.png](images/img_11.png)
+查看数据库
+```bash
+bin/gshow
+```
+![img_12.png](images/img_12.png)
+## 步骤6：配置tomcat8，为部署安装可视化gWorkbench做准备
 ### 1. 安装 Java，安装 OpenJDK
 ```powershell
 sudo apt install openjdk-8-jdk
@@ -150,3 +164,33 @@ sudo tar -zxvf apache-tomcat-8.5.73.tar.gz -C /opt/tomcat
 /opt/tomcat/apache-tomcat-8.5.73/bin/startup.sh
 ```
 ![img_8.png](images/img_8.png)
+## 步骤7：gWorkbench安装
+只需要把解压后的文件放到tomcat的webapps下面
+```powershell
+unzip gworkbench.zip
+```
+![img_9.png](images/img_9.png)
+启动tomcat，就启动项目了
+访问地址：http://localhost:8080/gworkbench/views/user/login.html
+## 步骤8：运行gStore数据库
+进入解压的gStore目录下：
+开启gServer服务
+```powershell
+./bin/gserver --start
+```
+关闭gServer服务
+```powershell
+bin/gserver -t
+```
+启动http api服务（黑窗口不能关）
+```powershell
+./bin/ghttp
+```
+后台启动http服务 默认端口号9000
+```powershell
+nohup ./bin/ghttp & 
+```
+关闭http api服务
+```powershell
+bin/shutdown
+```
